@@ -534,24 +534,34 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qj032"]
-size = Vector2(10, 20)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m85ox"]
+radius = 4.0
+height = 19.0
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_qwsb6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_628ao")
-animation = &"attack_up"
+animation = &"idle_up"
 autoplay = "idle_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 2)
-shape = SubResource("RectangleShape2D_qj032")
+position = Vector2(0, 2.5)
+shape = SubResource("CapsuleShape2D_m85ox")
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.2
 one_shot = true
 
+[node name="RollTimer" type="Timer" parent="."]
+wait_time = 0.4
+one_shot = true
+
+[node name="RollCooldownTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="RollTimer" to="." method="_on_roll_timer_timeout"]
+[connection signal="timeout" from="RollCooldownTimer" to="." method="_on_roll_cooldown_timer_timeout"]
