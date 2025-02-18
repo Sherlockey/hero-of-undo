@@ -543,7 +543,7 @@ script = ExtResource("1_qwsb6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_628ao")
-animation = &"idle_up"
+animation = &"attack_down"
 autoplay = "idle_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
