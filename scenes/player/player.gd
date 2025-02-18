@@ -10,8 +10,8 @@ var last_direction: Vector2 = Vector2.UP
 var attacking: bool
 var rolling: bool
 var can_roll: bool = true
-var rewinding: bool = false
 var ignore_rewind: bool = false
+var rewinding: bool = false
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_timer: Timer = $AttackTimer
@@ -21,7 +21,7 @@ var ignore_rewind: bool = false
 
 func _physics_process(_delta: float) -> void:
 	# Rewind
-	if Input.is_action_pressed("rewind") and can_rewind() and not ignore_rewind:
+	if Global.is_rewinding and can_rewind() and not ignore_rewind:
 		rewinding = true
 	else:
 		rewinding = false
