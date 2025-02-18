@@ -9,6 +9,9 @@ const COORDINATE_PAIRS: Array[Vector2] = [
 
 @export var rng_seed: int
 
+var commands: Array[Command] = []
+var commands_index: int = -1
+var rewinding: bool = false
 var rng := RandomNumberGenerator.new()
 var rng_state: int
 var direction: Vector2 = Vector2.ZERO
@@ -25,8 +28,20 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	velocity = direction * SPEED
-	move_and_slide()
+	if Global.is_rewinding and can_rewind():
+		rewinding = true
+	else:
+		rewinding = false
+	
+	if rewinding:
+		commands[commands_index].undo()
+		commands_index -= 1
+	else:
+		velocity = direction * SPEED
+		move_and_slide()
+		var move_command := MoveCommand.new(self, direction * SPEED)
+		commands_index += 1
+		commands.insert(commands_index, move_command)
 	
 	if ray_cast_2d.is_colliding():
 		choose_new_ray_cast_length()
@@ -54,3 +69,7 @@ func determine_new_direction() -> void:
 			possible_coordinates.erase(new_vector)
 	
 	direction = new_vector
+
+
+func can_rewind() -> bool:
+	return commands_index >= 0

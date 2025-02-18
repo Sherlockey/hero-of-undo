@@ -12,6 +12,7 @@ var rolling: bool
 var can_roll: bool = true
 var ignore_rewind: bool = false
 var rewinding: bool = false
+var awaiting: bool = false
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_timer: Timer = $AttackTimer
@@ -20,6 +21,8 @@ var rewinding: bool = false
 
 
 func _physics_process(_delta: float) -> void:
+	if awaiting:
+		return
 	# Rewind
 	if Global.is_rewinding and can_rewind() and not ignore_rewind:
 		rewinding = true
@@ -29,7 +32,9 @@ func _physics_process(_delta: float) -> void:
 	if rewinding:
 		if commands[commands_index]._does_await:
 			commands[commands_index].undo()
+			awaiting = true
 			await commands[commands_index].finished
+			awaiting = false
 			commands_index -= 1
 		else:
 			commands[commands_index].undo()
@@ -37,7 +42,9 @@ func _physics_process(_delta: float) -> void:
 		while not commands[commands_index].does_consume_process and can_rewind():
 			if commands[commands_index]._does_await:
 				commands[commands_index].undo()
+				awaiting = true
 				await commands[commands_index].finished
+				awaiting = false
 				commands_index -= 1
 			else:
 				commands[commands_index].undo()
@@ -52,6 +59,7 @@ func _physics_process(_delta: float) -> void:
 		commands.insert(commands_index, move_command)
 		return
 	
+	# Declare Animation Name
 	var animation_name: String
 	
 	# Attack
@@ -73,7 +81,7 @@ func _physics_process(_delta: float) -> void:
 		commands.insert(commands_index, attack_command)
 		return
 	
-	# Move
+	# Get Direction
 	var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	
 	# Start rolling
@@ -87,7 +95,7 @@ func _physics_process(_delta: float) -> void:
 		
 		velocity = direction * ROLL_SPEED
 		move_and_slide()
-		var move_command := MoveCommand.new(self, direction * SPEED)
+		var move_command := MoveCommand.new(self, velocity)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
 		
