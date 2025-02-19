@@ -46,6 +46,7 @@ shape = SubResource("CircleShape2D_0v1mp")
 
 [node name="RayCast2D" type="RayCast2D" parent="."]
 target_position = Vector2(0, 0)
+collide_with_areas = true
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0

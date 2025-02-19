@@ -1,7 +1,11 @@
 extends Node
 
+# Enemy
 signal enemy_died(node: Node)
 signal enemy_undied(node: Node)
+
+# Exit Area
+signal exit_area_entered()
 
 var is_rewinding: bool = false
 
