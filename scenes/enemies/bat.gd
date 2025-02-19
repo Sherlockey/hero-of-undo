@@ -89,7 +89,7 @@ func determine_new_direction() -> void:
 		if is_ray_colliding:
 			possible_coordinates.erase(new_vector)
 	
-	direction = new_vector
+	direction = new_vector.normalized()
 
 
 func can_rewind() -> bool:
