@@ -25,10 +25,10 @@ func _ready() -> void:
 	choose_new_ray_cast_length()
 	determine_new_direction()
 	rng_state = rng.state
+	get_tree().create_timer(3.0, false).timeout.connect(die)
 
 
 func _physics_process(delta: float) -> void:
-	print(rng.state)
 	if Global.is_rewinding:
 		if can_rewind():
 			rewinding = true
@@ -94,3 +94,7 @@ func determine_new_direction() -> void:
 
 func can_rewind() -> bool:
 	return commands_index >= 0
+
+
+func die() -> void:
+	Global.enemy_died.emit(self)

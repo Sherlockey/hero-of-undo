@@ -1,5 +1,7 @@
 extends Node
 
+signal enemy_died(node: Node)
+
 var is_rewinding: bool = false
 
 
