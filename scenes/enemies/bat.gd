@@ -24,11 +24,8 @@ func _ready() -> void:
 	rng.seed = rng_seed
 	choose_new_ray_cast_length()
 	determine_new_direction()
-	rng_state = rng.state
-
 
 func _physics_process(delta: float) -> void:
-	print(rng.state)
 	if Global.is_rewinding:
 		if can_rewind():
 			rewinding = true
@@ -54,7 +51,7 @@ func _physics_process(delta: float) -> void:
 		velocity = direction * SPEED
 		move_and_slide()
 		var data : Dictionary = {
-			"rng_state" = rng_state, 
+			"rng_state" = rng.state, 
 			"ray_cast_length" = ray_cast_length, 
 			"ray_cast_target_position" = ray_cast_2d.target_position, 
 			"direction" = direction
