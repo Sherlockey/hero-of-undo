@@ -10,7 +10,6 @@ var last_direction: Vector2 = Vector2.UP
 var attacking: bool
 var rolling: bool
 var can_roll: bool = true
-var ignore_rewind: bool = false
 var rewinding: bool = false
 var awaiting: bool = false
 
@@ -24,8 +23,12 @@ func _physics_process(_delta: float) -> void:
 	if awaiting:
 		return
 	# Rewind
-	if Global.is_rewinding and can_rewind() and not ignore_rewind:
-		rewinding = true
+	if Global.is_rewinding:
+		if can_rewind():
+			rewinding = true
+		else:
+			rewinding = false
+			return
 	else:
 		rewinding = false
 	
@@ -150,16 +153,10 @@ func _physics_process(_delta: float) -> void:
 	commands.insert(commands_index, animate_command)
 
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_released("rewind"):
-		ignore_rewind = false
-
-
 func can_rewind() -> bool:
 	if commands_index >= 0:
 		return true
 	else:
-		ignore_rewind = true
 		return false
 
 
