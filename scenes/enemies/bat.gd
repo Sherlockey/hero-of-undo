@@ -22,33 +22,51 @@ var ray_cast_length: float = 0.0
 
 func _ready() -> void:
 	rng.seed = rng_seed
-	rng_state = rng.state
-	print("ready" + str(rng.state))
 	choose_new_ray_cast_length()
 	determine_new_direction()
+	rng_state = rng.state
 
 
 func _physics_process(delta: float) -> void:
-	if Global.is_rewinding and can_rewind():
-		rewinding = true
+	print(rng.state)
+	if Global.is_rewinding:
+		if can_rewind():
+			rewinding = true
+		else:
+			rewinding = false
+			return
 	else:
 		rewinding = false
 	
 	if rewinding:
 		commands[commands_index].undo()
-		rng.state = commands[commands_index]._rng_state
+		if commands[commands_index]._data:
+			if commands[commands_index]._data.has("rng_state"):
+				rng.state = commands[commands_index]._data.get("rng_state")
+			if commands[commands_index]._data.has("ray_cast_length"):
+				ray_cast_length = commands[commands_index]._data.get("ray_cast_length")
+			if commands[commands_index]._data.has("ray_cast_target_position"):
+				ray_cast_2d.target_position = commands[commands_index]._data.get("ray_cast_target_position")
+			if commands[commands_index]._data.has("direction"):
+				direction = commands[commands_index]._data.get("direction")
 		commands_index -= 1
 	else:
 		velocity = direction * SPEED
 		move_and_slide()
-		var move_command := MoveCommand.new(self, direction * SPEED, rng_state)
+		var data : Dictionary = {
+			"rng_state" = rng_state, 
+			"ray_cast_length" = ray_cast_length, 
+			"ray_cast_target_position" = ray_cast_2d.target_position, 
+			"direction" = direction
+			}
+		var move_command := MoveCommand.new(self, direction * SPEED, data)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
 	
 	if ray_cast_2d.is_colliding():
-		rng_state = rng.state
 		choose_new_ray_cast_length()
 		determine_new_direction()
+		rng_state = rng.state
 
 
 func choose_new_ray_cast_length() -> void:
@@ -62,7 +80,6 @@ func determine_new_direction() -> void:
 	
 	while is_ray_colliding == true:
 		var size: int = possible_coordinates.size()
-		print("rng state before random index: " + str(rng_state))
 		var random_index: int = rng.randi_range(0, size -1)
 		new_vector = possible_coordinates[random_index]
 		ray_cast_2d.target_position.x = new_vector.x * ray_cast_length
