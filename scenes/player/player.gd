@@ -181,7 +181,7 @@ func set_is_dead(value: bool) -> void:
 		var die_command := DieCommand.new(self)
 		commands_index += 1
 		commands.insert(commands_index, die_command)
-		Engine.time_scale = 0.0
+		get_tree().paused = true
 
 
 func set_attacking(value: bool) -> void:

@@ -47,6 +47,7 @@ func _physics_process(delta: float) -> void:
 			if commands[commands_index]._data.has("direction"):
 				direction = commands[commands_index]._data.get("direction")
 		commands_index -= 1
+		return
 	else:
 		velocity = direction * SPEED
 		move_and_slide()
