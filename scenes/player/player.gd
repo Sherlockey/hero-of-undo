@@ -7,16 +7,20 @@ const ROLL_SPEED = 175.0
 var commands: Array[Command] = []
 var commands_index: int = -1
 var last_direction: Vector2 = Vector2.UP
-var attacking: bool
 var rolling: bool
 var can_roll: bool = true
 var rewinding: bool = false
 var awaiting: bool = false
+var damage: int = 1
+var health: int = 1
+var is_dead: bool = false: set = set_is_dead
+var attacking: bool: set = set_attacking
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var attack_timer: Timer = $AttackTimer
 @onready var roll_timer: Timer = $RollTimer
 @onready var roll_cooldown_timer: Timer = $RollCooldownTimer
+@onready var attack_area: Area2D = $AttackArea
 
 
 func _physics_process(_delta: float) -> void:
@@ -52,6 +56,10 @@ func _physics_process(_delta: float) -> void:
 			else:
 				commands[commands_index].undo()
 				commands_index -= 1
+		return
+	
+	# Dead
+	if is_dead:
 		return
 	
 	# Roll
@@ -153,11 +161,42 @@ func _physics_process(_delta: float) -> void:
 	commands.insert(commands_index, animate_command)
 
 
+func take_damage(value: int) -> void:
+	health -= value
+	if health <= 0:
+		is_dead = true
+
+
 func can_rewind() -> bool:
 	if commands_index >= 0:
 		return true
 	else:
 		return false
+
+
+func set_is_dead(value: bool) -> void:
+	is_dead = value
+	
+	if is_dead == true:
+		var die_command := DieCommand.new(self)
+		commands_index += 1
+		commands.insert(commands_index, die_command)
+		Engine.time_scale = 0.0
+
+
+func set_attacking(value: bool) -> void:
+	attacking = value
+	
+	if last_direction == Vector2.UP:
+		attack_area.rotation_degrees = 0.0
+	if last_direction == Vector2.DOWN:
+		attack_area.rotation_degrees = 180.0
+	if last_direction == Vector2.LEFT:
+		attack_area.rotation_degrees = 270.0
+	if last_direction == Vector2.RIGHT:
+		attack_area.rotation_degrees = 90.0
+	
+	attack_area.monitoring = value
 
 
 func _on_animation_finished(animation_name: String) -> void:
@@ -177,3 +216,8 @@ func _on_roll_timer_timeout() -> void:
 
 func _on_roll_cooldown_timer_timeout() -> void:
 	can_roll = true
+
+
+func _on_attack_area_body_entered(body: Node2D) -> void:
+	if body is Enemy:
+		body.take_damage(damage)

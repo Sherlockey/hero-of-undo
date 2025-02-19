@@ -546,11 +546,22 @@ script = ExtResource("1_qwsb6")
 sprite_frames = SubResource("SpriteFrames_628ao")
 animation = &"attack_down"
 autoplay = "idle_up"
+frame = 3
+frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 position = Vector2(0, 2.5)
 shape = SubResource("CapsuleShape2D_m85ox")
+
+[node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitoring = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AttackArea"]
+visible = false
+polygon = PackedVector2Array(-20, 0, -15, -15, 0, -25, 15, -15, 20, 0)
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.2
@@ -563,6 +574,7 @@ one_shot = true
 [node name="RollCooldownTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="RollTimer" to="." method="_on_roll_timer_timeout"]
 [connection signal="timeout" from="RollCooldownTimer" to="." method="_on_roll_cooldown_timer_timeout"]

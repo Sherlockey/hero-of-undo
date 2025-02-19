@@ -1,4 +1,5 @@
-extends CharacterBody2D
+class_name Bat
+extends Enemy
 
 const SPEED = 50.0
 const MIN_RAY_CAST_LENGTH: float = 20.0
@@ -9,8 +10,6 @@ const COORDINATE_PAIRS: Array[Vector2] = [
 
 @export var rng_seed: int
 
-var commands: Array[Command] = []
-var commands_index: int = -1
 var rewinding: bool = false
 var rng := RandomNumberGenerator.new()
 var rng_state: int
@@ -21,14 +20,15 @@ var ray_cast_length: float = 0.0
 
 
 func _ready() -> void:
+	super()
 	rng.seed = rng_seed
 	choose_new_ray_cast_length()
 	determine_new_direction()
 	rng_state = rng.state
-	get_tree().create_timer(3.0, false).timeout.connect(die)
 
 
 func _physics_process(delta: float) -> void:
+	print(rng.state)
 	if Global.is_rewinding:
 		if can_rewind():
 			rewinding = true
@@ -94,7 +94,3 @@ func determine_new_direction() -> void:
 
 func can_rewind() -> bool:
 	return commands_index >= 0
-
-
-func die() -> void:
-	Global.enemy_died.emit(self)
