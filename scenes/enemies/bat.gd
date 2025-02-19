@@ -23,6 +23,7 @@ var ray_cast_length: float = 0.0
 func _ready() -> void:
 	rng.seed = rng_seed
 	rng_state = rng.state
+	print("ready" + str(rng.state))
 	choose_new_ray_cast_length()
 	determine_new_direction()
 
@@ -35,15 +36,17 @@ func _physics_process(delta: float) -> void:
 	
 	if rewinding:
 		commands[commands_index].undo()
+		rng.state = commands[commands_index]._rng_state
 		commands_index -= 1
 	else:
 		velocity = direction * SPEED
 		move_and_slide()
-		var move_command := MoveCommand.new(self, direction * SPEED)
+		var move_command := MoveCommand.new(self, direction * SPEED, rng_state)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
 	
 	if ray_cast_2d.is_colliding():
+		rng_state = rng.state
 		choose_new_ray_cast_length()
 		determine_new_direction()
 
@@ -59,6 +62,7 @@ func determine_new_direction() -> void:
 	
 	while is_ray_colliding == true:
 		var size: int = possible_coordinates.size()
+		print("rng state before random index: " + str(rng_state))
 		var random_index: int = rng.randi_range(0, size -1)
 		new_vector = possible_coordinates[random_index]
 		ray_cast_2d.target_position.x = new_vector.x * ray_cast_length

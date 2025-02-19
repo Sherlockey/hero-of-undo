@@ -14,13 +14,5 @@ rendering_quadrant_size = 20
 [node name="Bat" parent="." instance=ExtResource("3_mo26p")]
 position = Vector2(50, 50)
 
-[node name="Bat2" parent="." instance=ExtResource("3_mo26p")]
-position = Vector2(258, 91)
-rng_seed = 1
-
-[node name="Bat3" parent="." instance=ExtResource("3_mo26p")]
-position = Vector2(103, 118)
-rng_seed = 2
-
 [node name="Player" parent="." instance=ExtResource("2_2376u")]
 position = Vector2(160, 147)
