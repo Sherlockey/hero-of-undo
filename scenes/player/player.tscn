@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://mtypemkvspd0"]
+[gd_scene load_steps=72 format=3 uid="uid://mtypemkvspd0"]
 
 [ext_resource type="Texture2D" uid="uid://bbxh2d2y8o3o1" path="res://assets/sprites/imelda.png" id="1_h0usy"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_qwsb6"]
@@ -536,7 +536,44 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_m85ox"]
 radius = 4.0
-height = 19.0
+height = 20.0
+
+[sub_resource type="Animation" id="Animation_jbjml"]
+resource_name = "exit"
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Color(1, 1, 1, 1), Color(0.831373, 0.831373, 0.843137, 1), Color(0.662745, 0.662745, 0.686275, 1), Color(0.490196, 0.490196, 0.52549, 1), Color(0.321569, 0.321569, 0.368627, 1), Color(0.152941, 0.152941, 0.211765, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6a6wx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vvrli"]
+_data = {
+"RESET": SubResource("Animation_6a6wx"),
+"exit": SubResource("Animation_jbjml")
+}
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
@@ -549,7 +586,7 @@ autoplay = "idle_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-position = Vector2(0, 2.5)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_m85ox")
 
 [node name="AttackArea" type="Area2D" parent="."]
@@ -571,6 +608,12 @@ one_shot = true
 
 [node name="RollCooldownTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_vvrli")
+}
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

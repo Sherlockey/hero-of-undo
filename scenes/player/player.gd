@@ -4,9 +4,10 @@ extends CharacterBody2D
 const SPEED = 100.0
 const ROLL_SPEED = 175.0
 
+@export var last_direction: Vector2 = Vector2.UP
+
 var commands: Array[Command] = []
 var commands_index: int = -1
-var last_direction: Vector2 = Vector2.UP
 var rolling: bool
 var can_roll: bool = true
 var rewinding: bool = false
@@ -21,6 +22,7 @@ var attacking: bool: set = set_attacking
 @onready var roll_timer: Timer = $RollTimer
 @onready var roll_cooldown_timer: Timer = $RollCooldownTimer
 @onready var attack_area: Area2D = $AttackArea
+@onready var animation_player: AnimationPlayer = %AnimationPlayer
 
 
 func _physics_process(_delta: float) -> void:
@@ -199,6 +201,10 @@ func set_attacking(value: bool) -> void:
 		attack_area.rotation_degrees = 90.0
 	
 	attack_area.monitoring = value
+
+
+func play_exit_animation() -> void:
+	animation_player.play("exit")
 
 
 func _on_animation_finished(animation_name: String) -> void:

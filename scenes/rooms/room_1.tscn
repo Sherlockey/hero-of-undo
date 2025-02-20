@@ -1,13 +1,16 @@
-[gd_scene load_steps=6 format=4 uid="uid://2r5x1eux7jih"]
+[gd_scene load_steps=7 format=4 uid="uid://2r5x1eux7jih"]
 
 [ext_resource type="Script" path="res://scenes/rooms/room.gd" id="1_p8mf1"]
 [ext_resource type="TileSet" uid="uid://bvvev52o0rpm5" path="res://resources/tile_set.tres" id="1_rfe0d"]
 [ext_resource type="PackedScene" uid="uid://mtypemkvspd0" path="res://scenes/player/player.tscn" id="2_2376u"]
+[ext_resource type="PackedScene" uid="uid://bx0671qlu7lch" path="res://scenes/rooms/room_2.tscn" id="2_marle"]
 [ext_resource type="PackedScene" uid="uid://cgjoaluwwohoj" path="res://scenes/enemies/bat.tscn" id="3_mo26p"]
 [ext_resource type="PackedScene" uid="uid://3htdfepxjhoy" path="res://scenes/exit_area.tscn" id="5_hnve8"]
 
-[node name="Room1" type="Node2D" node_paths=PackedStringArray("exit_area")]
+[node name="Room1" type="Node2D" node_paths=PackedStringArray("player", "exit_area")]
 script = ExtResource("1_p8mf1")
+next_scene = ExtResource("2_marle")
+player = NodePath("Player")
 exit_area = NodePath("ExitArea")
 left_cell_atlas_coordinates = Vector2i(3, 0)
 right_cell_atlas_coordinates = Vector2i(4, 0)
@@ -36,5 +39,5 @@ rng_seed = 3
 position = Vector2(160, 147)
 
 [node name="ExitArea" parent="." instance=ExtResource("5_hnve8")]
-position = Vector2(161, 10)
+position = Vector2(161, -9)
 monitoring = false
