@@ -49,6 +49,9 @@ func _physics_process(delta: float) -> void:
 		commands_index -= 1
 		return
 	else:
+		var move_command := MoveCommand.new(self, global_position)
+		commands_index += 1
+		commands.insert(commands_index, move_command)
 		velocity = direction * SPEED
 		move_and_slide()
 		var data : Dictionary = {
@@ -57,9 +60,6 @@ func _physics_process(delta: float) -> void:
 			"ray_cast_target_position" = ray_cast_2d.target_position, 
 			"direction" = direction
 			}
-		var move_command := MoveCommand.new(self, direction * SPEED, data)
-		commands_index += 1
-		commands.insert(commands_index, move_command)
 	
 	if ray_cast_2d.is_colliding():
 		choose_new_ray_cast_length()

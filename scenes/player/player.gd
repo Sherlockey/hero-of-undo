@@ -64,10 +64,10 @@ func _physics_process(_delta: float) -> void:
 	
 	# Roll
 	if rolling:
-		move_and_slide()
-		var move_command := MoveCommand.new(self, velocity)
+		var move_command := MoveCommand.new(self, global_position)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
+		move_and_slide()
 		return
 	
 	# Declare Animation Name
@@ -104,11 +104,11 @@ func _physics_process(_delta: float) -> void:
 		if direction == Vector2.ZERO:
 			direction = last_direction
 		
-		velocity = direction * ROLL_SPEED
-		move_and_slide()
-		var move_command := MoveCommand.new(self, velocity)
+		var move_command := MoveCommand.new(self, global_position)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
+		velocity = direction * ROLL_SPEED
+		move_and_slide()
 		
 		if last_direction == Vector2.UP:
 			animation_name = "roll_up"
@@ -126,11 +126,11 @@ func _physics_process(_delta: float) -> void:
 	
 	# Normal movement
 	if not attacking and not rolling:
-		velocity = direction * SPEED
-		move_and_slide()
-		var move_command := MoveCommand.new(self, direction * SPEED)
+		var move_command := MoveCommand.new(self, global_position)
 		commands_index += 1
 		commands.insert(commands_index, move_command)
+		velocity = direction * SPEED
+		move_and_slide()
 		
 		# Move Animations
 		if direction.y < -0.7:
