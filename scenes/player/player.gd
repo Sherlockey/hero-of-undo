@@ -120,7 +120,8 @@ func _physics_process(_delta: float) -> void:
 			animation_name = "roll_right"
 		
 		animated_sprite_2d.play(animation_name)
-		animated_sprite_2d.animation_finished.connect(_on_animation_finished.bind(animation_name))
+		if not animated_sprite_2d.animation_finished.is_connected(_on_animation_finished):
+			animated_sprite_2d.animation_finished.connect(_on_animation_finished.bind(animation_name))
 		return
 	
 	# Normal movement
@@ -162,9 +163,10 @@ func _physics_process(_delta: float) -> void:
 
 
 func take_damage(value: int) -> void:
-	health -= value
-	if health <= 0:
-		is_dead = true
+	if not rolling:
+		health -= value
+		if health <= 0:
+			is_dead = true
 
 
 func can_rewind() -> bool:

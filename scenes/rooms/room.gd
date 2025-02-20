@@ -14,6 +14,7 @@ var alive_enemies: Array[Node]
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	alive_enemies = get_tree().get_nodes_in_group("enemy")
 	Global.enemy_died.connect(_on_global_enemy_died)
 	Global.enemy_undied.connect(_on_global_enemy_undied)
