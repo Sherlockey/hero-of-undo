@@ -8,6 +8,21 @@
 [ext_resource type="Texture2D" uid="uid://4lmwy56mquyb" path="res://assets/press_any_key_to_start.png" id="4_g0g0j"]
 [ext_resource type="PackedScene" uid="uid://3htdfepxjhoy" path="res://scenes/exit_area.tscn" id="6_y3jfw"]
 
+[sub_resource type="Animation" id="Animation_a8ho1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_txhur"]
 resource_name = "fade_out"
 step = 0.2
@@ -22,21 +37,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_a8ho1"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3jap8"]
@@ -79,3 +79,4 @@ libraries = {
 
 [node name="ExitArea" parent="." instance=ExtResource("6_y3jfw")]
 position = Vector2(230, 71)
+monitoring = true

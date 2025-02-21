@@ -1,0 +1,166 @@
+[gd_scene load_steps=16 format=3 uid="uid://bv5eeywm5dpis"]
+
+[ext_resource type="Script" path="res://scenes/enemies/mushroom.gd" id="1_7teeq"]
+[ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/enemies/mushroom_projectile.tscn" id="2_1hrrs"]
+[ext_resource type="Texture2D" uid="uid://cx4rotemumpgi" path="res://assets/sprites/mushroom.png" id="2_2msue"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7n45g"]
+atlas = ExtResource("2_2msue")
+region = Rect2(48, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hl55v"]
+atlas = ExtResource("2_2msue")
+region = Rect2(72, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnba8"]
+atlas = ExtResource("2_2msue")
+region = Rect2(96, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipp60"]
+atlas = ExtResource("2_2msue")
+region = Rect2(120, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6lkpe"]
+atlas = ExtResource("2_2msue")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0gci"]
+atlas = ExtResource("2_2msue")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0xphl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7n45g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hl55v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gnba8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipp60")
+}],
+"loop": false,
+"name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6lkpe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0gci")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0v1mp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lq53"]
+
+[sub_resource type="Animation" id="Animation_1u6hj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_eq7ai"]
+resource_name = "attack"
+length = 0.5332
+step = 0.1333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1333, 0.2666, 0.3999),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.2666, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"attack"
+}, {
+"args": [],
+"method": &"start_idle_animation"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackCooldownTimer")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.2666),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [-1],
+"method": &"start"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f63gk"]
+_data = {
+"RESET": SubResource("Animation_1u6hj"),
+"attack": SubResource("Animation_eq7ai")
+}
+
+[node name="Mushroom" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+script = ExtResource("1_7teeq")
+projectile_scene = ExtResource("2_1hrrs")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0xphl")
+animation = &"attack"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CircleShape2D_0v1mp")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+shape = SubResource("CircleShape2D_3lq53")
+
+[node name="AttackCooldownTimer" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_f63gk")
+}
+
+[connection signal="timeout" from="AttackCooldownTimer" to="." method="_on_shoot_cooldown_timer_timeout"]

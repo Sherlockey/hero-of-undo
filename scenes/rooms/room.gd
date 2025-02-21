@@ -3,6 +3,7 @@ extends Node2D
 const TOP_COORDINATE_LEFT := Vector2i(7,0)
 const TOP_COORDINATE_RIGHT := Vector2i(8,0)
 const TILE_SET_SOURCE_ID: int = 0
+const FADE_OUT_DURATION: float = 0.2
 
 @export var next_scene: PackedScene
 @export var player: Player
@@ -34,7 +35,7 @@ func _on_global_exit_area_entered() -> void:
 	player.play_exit_animation()
 	await player.animation_player.animation_finished
 	player.modulate.a = 0.0
-	await get_tree().create_timer(0.2, false).timeout
+	await get_tree().create_timer(FADE_OUT_DURATION, false).timeout
 	get_tree().change_scene_to_packed(next_scene)
 
 

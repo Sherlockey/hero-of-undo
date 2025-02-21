@@ -1,5 +1,7 @@
 extends Node2D
 
+const FADE_OUT_DURATION: float = 0.2
+
 @export var next_scene: PackedScene
 
 var waiting_for_input: bool = true
@@ -30,5 +32,5 @@ func _on_global_exit_area_entered() -> void:
 	player.play_exit_animation()
 	await player.animation_player.animation_finished
 	player.modulate.a = 0.0
-	await get_tree().create_timer(0.2, false).timeout
+	await get_tree().create_timer(FADE_OUT_DURATION, false).timeout
 	get_tree().change_scene_to_packed(next_scene)

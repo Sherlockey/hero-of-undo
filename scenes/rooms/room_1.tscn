@@ -40,4 +40,3 @@ position = Vector2(160, 147)
 
 [node name="ExitArea" parent="." instance=ExtResource("5_hnve8")]
 position = Vector2(161, -9)
-monitoring = false

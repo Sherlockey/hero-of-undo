@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://bwaijvmy5k68"]
+
+[ext_resource type="Texture2D" uid="uid://b6kx0p5mb81ce" path="res://assets/sprites/mushroom_projectile.png" id="1_axxuf"]
+[ext_resource type="Script" path="res://scripts/projectile.gd" id="2_w5tsq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5gnw3"]
+atlas = ExtResource("1_axxuf")
+region = Rect2(0, 0, 12, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kg8o6"]
+atlas = ExtResource("1_axxuf")
+region = Rect2(12, 0, 12, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wmj4k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5gnw3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kg8o6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rjcn0"]
+radius = 6.0
+
+[node name="MushroomProjectile" type="Node2D"]
+script = ExtResource("2_w5tsq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wmj4k")
+autoplay = "default"
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_rjcn0")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
