@@ -5,20 +5,20 @@ extends Enemy
 
 var player: Player
 var is_rewinding: bool = false
+var is_attacking: bool =  false : set = set_is_attacking
 var cooldown: float = 1.0
+var time: float = 0.0
 
-@onready var attack_cooldown_timer: Timer = $AttackCooldownTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 
 func _ready() -> void:
 	super()
 	player = get_tree().get_first_node_in_group("player")
-	attack_cooldown_timer.wait_time = cooldown
-	attack_cooldown_timer.start()
 
 
 func _physics_process(delta: float) -> void:
+	print(time)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -29,30 +29,45 @@ func _physics_process(delta: float) -> void:
 		is_rewinding = false
 	
 	if is_rewinding:
-		for command in commands[commands_index]:
+		for command: Command in commands[commands_index]:
 			command.undo()
-		if commands[commands_index].size() > 0:
-			commands_index -= 1
+		commands_index -= 1
+		
+		if not is_attacking:
+			time -= delta
+			if time < 0.0:
+				time = 1.0 + time
 		return
 	else:
 		current_commands.clear()
 		
+		if not is_attacking:
+			time += delta
+		
+		if time >= cooldown:
+			if not is_dead:
+				is_attacking = true
+				time = 0.0
+				begin_attack_animation()
+		
+		#Animations
 		if animation_player.is_playing():
 			var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
 			var animate_command := AnimateCommand.new(animated_sprite_2d, data)
 			current_commands.append(animate_command)
 		else:
+			animated_sprite_2d.play("idle")
 			var animate_command := AnimateCommand.new(animated_sprite_2d)
 			current_commands.append(animate_command)
 		
-	if current_commands.size() > 0:
-		commands_index += 1
-		var array: Array[Command] = current_commands.duplicate(true)
-		commands.insert(commands_index, array)
+		if current_commands.size() > 0:
+			commands_index += 1
+			var array: Array[Command] = current_commands.duplicate(true)
+			commands.insert(commands_index, array)
 
 
 func begin_attack_animation() -> void:
-	animated_sprite_2d.stop()
+	#animated_sprite_2d.stop()
 	animated_sprite_2d.animation = "attack"
 	animation_player.play("attack")
 
@@ -65,19 +80,9 @@ func attack() -> void:
 		get_tree().root.add_child(projectile)
 
 
-func start_idle_animation() -> void:
-	animated_sprite_2d.play("idle")
-
-
-func start_attack_cooldown_timer() -> void:
-		attack_cooldown_timer.wait_time = cooldown
-		attack_cooldown_timer.start()
+func set_is_attacking(value: bool) -> void:
+	is_attacking = value
 
 
 func can_rewind() -> bool:
 	return commands_index >= 0
-
-
-func _on_shoot_cooldown_timer_timeout() -> void:
-	if not is_dead:
-		begin_attack_animation()

@@ -53,6 +53,8 @@ func _physics_process(_delta: float) -> void:
 	if rolling:
 		var move_command := MoveCommand.new(self, global_position)
 		current_commands.append(move_command)
+		var roll_animate_command := AnimateCommand.new(animated_sprite_2d)
+		current_commands.append(roll_animate_command)
 		
 		move_and_slide()
 		

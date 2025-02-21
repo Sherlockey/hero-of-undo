@@ -36,7 +36,8 @@ func _physics_process(delta: float) -> void:
 		
 		if current_commands.size() > 0:
 			commands_index += 1
-			commands.insert(commands_index, current_commands)
+			var array: Array[Command] = current_commands.duplicate(true)
+			commands.insert(commands_index, array)
 
 
 func can_rewind() -> bool:
