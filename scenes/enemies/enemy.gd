@@ -4,7 +4,8 @@ extends CharacterBody2D
 @export var max_health: int = 1
 @export var damage: int = 1
 
-var commands: Array[Command] = []
+var current_commands: Array[Command] = []
+var commands: Array = []
 var commands_index: int = -1
 var is_dead: bool: set = set_is_dead
 
@@ -21,8 +22,8 @@ func _ready() -> void:
 func take_damage(value: int) -> void:
 	health -= value
 	var take_damage_command := TakeDamageCommand.new(self, value)
-	commands_index += 1
-	commands.insert(commands_index, take_damage_command)
+	commands[commands_index].append(take_damage_command)
+	
 	if health <= 0:
 		is_dead = true
 
@@ -33,8 +34,7 @@ func set_is_dead(value: bool) -> void:
 	if is_dead == true:
 		Global.enemy_died.emit(self)
 		var die_command := DieCommand.new(self)
-		commands_index += 1
-		commands.insert(commands_index, die_command)
+		commands[commands_index].append(die_command)
 	else:
 		Global.enemy_undied.emit(self)
 

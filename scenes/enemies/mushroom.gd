@@ -5,6 +5,7 @@ extends Enemy
 
 var player: Player
 var is_rewinding: bool = false
+var cooldown: float = 1.0
 
 @onready var attack_cooldown_timer: Timer = $AttackCooldownTimer
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
@@ -13,6 +14,8 @@ var is_rewinding: bool = false
 func _ready() -> void:
 	super()
 	player = get_tree().get_first_node_in_group("player")
+	attack_cooldown_timer.wait_time = cooldown
+	attack_cooldown_timer.start()
 
 
 func _physics_process(delta: float) -> void:
@@ -26,19 +29,26 @@ func _physics_process(delta: float) -> void:
 		is_rewinding = false
 	
 	if is_rewinding:
-		commands[commands_index].undo()
-		commands_index -= 1
+		for command in commands[commands_index]:
+			command.undo()
+		if commands[commands_index].size() > 0:
+			commands_index -= 1
 		return
 	else:
+		current_commands.clear()
+		
 		if animation_player.is_playing():
 			var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
-			var animate_command := AnimateCommand.new(animated_sprite_2d, "attack", false, data)
-			commands_index += 1
-			commands.insert(commands_index, animate_command)
+			var animate_command := AnimateCommand.new(animated_sprite_2d, data)
+			current_commands.append(animate_command)
 		else:
-			var animate_command := AnimateCommand.new(animated_sprite_2d, "idle")
-			commands_index += 1
-			commands.insert(commands_index, animate_command)
+			var animate_command := AnimateCommand.new(animated_sprite_2d)
+			current_commands.append(animate_command)
+		
+	if current_commands.size() > 0:
+		commands_index += 1
+		var array: Array[Command] = current_commands.duplicate(true)
+		commands.insert(commands_index, array)
 
 
 func begin_attack_animation() -> void:
@@ -57,6 +67,11 @@ func attack() -> void:
 
 func start_idle_animation() -> void:
 	animated_sprite_2d.play("idle")
+
+
+func start_attack_cooldown_timer() -> void:
+		attack_cooldown_timer.wait_time = cooldown
+		attack_cooldown_timer.start()
 
 
 func can_rewind() -> bool:

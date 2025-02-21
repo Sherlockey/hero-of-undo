@@ -28,12 +28,3 @@ position = Vector2(160, -9)
 
 [node name="Mushroom" parent="." instance=ExtResource("5_j2em1")]
 position = Vector2(211, 70)
-
-[node name="Mushroom2" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(71, 70)
-
-[node name="Mushroom3" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(90, 110)
-
-[node name="Mushroom4" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(270, 110)

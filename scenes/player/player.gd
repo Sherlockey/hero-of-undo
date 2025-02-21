@@ -6,12 +6,12 @@ const ROLL_SPEED = 175.0
 
 @export var last_direction: Vector2 = Vector2.UP
 
-var commands: Array[Command] = []
+var current_commands: Array[Command] = []
+var commands: Array = []
 var commands_index: int = -1
 var rolling: bool
 var can_roll: bool = true
 var rewinding: bool = false
-var awaiting: bool = false
 var damage: int = 1
 var health: int = 1
 var is_dead: bool = false: set = set_is_dead
@@ -26,8 +26,6 @@ var attacking: bool: set = set_attacking
 
 
 func _physics_process(_delta: float) -> void:
-	if awaiting:
-		return
 	# Rewind
 	if Global.is_rewinding:
 		if can_rewind():
@@ -39,37 +37,29 @@ func _physics_process(_delta: float) -> void:
 		rewinding = false
 	
 	if rewinding:
-		if commands[commands_index]._does_await:
-			commands[commands_index].undo()
-			awaiting = true
-			await commands[commands_index].finished
-			awaiting = false
-			commands_index -= 1
-		else:
-			commands[commands_index].undo()
-			commands_index -= 1
-		while not commands[commands_index].does_consume_process and can_rewind():
-			if commands[commands_index]._does_await:
-				commands[commands_index].undo()
-				awaiting = true
-				await commands[commands_index].finished
-				awaiting = false
-				commands_index -= 1
-			else:
-				commands[commands_index].undo()
-				commands_index -= 1
+		for command: Command in commands[commands_index]:
+			command.undo()
+		commands_index -= 1
 		return
 	
 	# Dead
 	if is_dead:
 		return
 	
+	# Clear current_commands so it is ready to accept new commands this frame
+	current_commands.clear()
+	
 	# Roll
 	if rolling:
 		var move_command := MoveCommand.new(self, global_position)
-		commands_index += 1
-		commands.insert(commands_index, move_command)
+		current_commands.append(move_command)
+		
 		move_and_slide()
+		
+		if current_commands.size() > 0:
+			commands_index += 1
+			var array: Array[Command] = current_commands.duplicate(true)
+			commands.insert(commands_index, array)
 		return
 	
 	# Declare Animation Name
@@ -89,9 +79,13 @@ func _physics_process(_delta: float) -> void:
 			animation_name = "attack_right"
 		
 		animated_sprite_2d.play(animation_name)
-		var attack_command := AnimateCommand.new(animated_sprite_2d, animation_name, true)
-		commands_index += 1
-		commands.insert(commands_index, attack_command)
+		var attack_animate_command := AnimateCommand.new(animated_sprite_2d)
+		current_commands.append(attack_animate_command)
+		
+		if current_commands.size() > 0:
+			commands_index += 1
+			var array: Array[Command] = current_commands.duplicate(true)
+			commands.insert(commands_index, array)
 		return
 	
 	# Get Direction
@@ -107,8 +101,8 @@ func _physics_process(_delta: float) -> void:
 			direction = last_direction
 		
 		var move_command := MoveCommand.new(self, global_position)
-		commands_index += 1
-		commands.insert(commands_index, move_command)
+		current_commands.append(move_command)
+		
 		velocity = direction * ROLL_SPEED
 		move_and_slide()
 		
@@ -122,15 +116,20 @@ func _physics_process(_delta: float) -> void:
 			animation_name = "roll_right"
 		
 		animated_sprite_2d.play(animation_name)
-		if not animated_sprite_2d.animation_finished.is_connected(_on_animation_finished):
-			animated_sprite_2d.animation_finished.connect(_on_animation_finished.bind(animation_name))
+		var roll_animate_command := AnimateCommand.new(animated_sprite_2d)
+		current_commands.append(roll_animate_command)
+		
+		if current_commands.size() > 0:
+			commands_index += 1
+			var array: Array[Command] = current_commands.duplicate(true)
+			commands.insert(commands_index, array)
 		return
 	
 	# Normal movement
 	if not attacking and not rolling:
 		var move_command := MoveCommand.new(self, global_position)
-		commands_index += 1
-		commands.insert(commands_index, move_command)
+		current_commands.append(move_command)
+		
 		velocity = direction * SPEED
 		move_and_slide()
 		
@@ -159,9 +158,14 @@ func _physics_process(_delta: float) -> void:
 			animation_name = "idle_right"
 		
 	animated_sprite_2d.play(animation_name)
-	var animate_command := AnimateCommand.new(animated_sprite_2d, animation_name)
-	commands_index += 1
-	commands.insert(commands_index, animate_command)
+	var animate_command := AnimateCommand.new(animated_sprite_2d)
+	current_commands.append(animate_command)
+	
+	# Finally insert current commands to commands at commands_index
+	if current_commands.size() > 0:
+		commands_index += 1
+		var array: Array[Command] = current_commands.duplicate(true)
+		commands.insert(commands_index, array)
 
 
 func take_damage(value: int) -> void:
@@ -183,8 +187,7 @@ func set_is_dead(value: bool) -> void:
 	
 	if is_dead == true:
 		var die_command := DieCommand.new(self)
-		commands_index += 1
-		commands.insert(commands_index, die_command)
+		commands[commands_index].append(die_command)
 		get_tree().paused = true
 
 
@@ -205,13 +208,6 @@ func set_attacking(value: bool) -> void:
 
 func play_exit_animation() -> void:
 	animation_player.play("exit")
-
-
-func _on_animation_finished(animation_name: String) -> void:
-	var animate_command := AnimateCommand.new(animated_sprite_2d, animation_name)
-	commands_index += 1
-	commands.insert(commands_index, animate_command)
-	animated_sprite_2d.animation_finished.disconnect(_on_animation_finished)
 
 
 func _on_attack_timer_timeout() -> void:

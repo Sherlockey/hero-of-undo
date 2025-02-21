@@ -101,28 +101,31 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.2666, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0.2666, 0.5332, 1.625),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
 "args": [],
 "method": &"attack"
 }, {
 "args": [],
 "method": &"start_idle_animation"
+}, {
+"args": [],
+"method": &"start_attack_cooldown_timer"
 }]
 }
 tracks/2/type = "method"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AttackCooldownTimer")
+tracks/2/path = NodePath(".")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.2666),
+"times": PackedFloat32Array(0.5332),
 "transitions": PackedFloat32Array(1),
 "values": [{
-"args": [-1],
-"method": &"start"
+"args": [],
+"method": &"start_attack_cooldown_timer"
 }]
 }
 
@@ -155,8 +158,8 @@ visible = false
 shape = SubResource("CircleShape2D_3lq53")
 
 [node name="AttackCooldownTimer" type="Timer" parent="."]
+process_callback = 0
 one_shot = true
-autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -36,35 +36,44 @@ func _physics_process(delta: float) -> void:
 		rewinding = false
 	
 	if rewinding:
-		commands[commands_index].undo()
-		if commands[commands_index]._data:
-			if commands[commands_index]._data.has("rng_state"):
-				rng.state = commands[commands_index]._data.get("rng_state")
-			if commands[commands_index]._data.has("ray_cast_length"):
-				ray_cast_length = commands[commands_index]._data.get("ray_cast_length")
-			if commands[commands_index]._data.has("ray_cast_target_position"):
-				ray_cast_2d.target_position = commands[commands_index]._data.get("ray_cast_target_position")
-			if commands[commands_index]._data.has("direction"):
-				direction = commands[commands_index]._data.get("direction")
-		commands_index -= 1
+		for command in commands[commands_index]:
+			command.undo()
+			if command._data:
+				if command._data.has("rng_state"):
+					rng.state = command._data.get("rng_state")
+				if command._data.has("ray_cast_length"):
+					ray_cast_length = command._data.get("ray_cast_length")
+				if command._data.has("ray_cast_target_position"):
+					ray_cast_2d.target_position = command._data.get("ray_cast_target_position")
+				if command._data.has("direction"):
+					direction = command._data.get("direction")
+		if commands[commands_index].size() > 0:
+			commands_index -= 1
 		return
 	else:
-		var move_command := MoveCommand.new(self, global_position)
-		commands_index += 1
-		commands.insert(commands_index, move_command)
-		velocity = direction * SPEED
-		move_and_slide()
+		current_commands.clear()
 		var data : Dictionary = {
 			"rng_state" = rng.state, 
 			"ray_cast_length" = ray_cast_length, 
 			"ray_cast_target_position" = ray_cast_2d.target_position, 
 			"direction" = direction
 			}
+		var move_command := MoveCommand.new(self, global_position, data)
+		current_commands.append(move_command)
+		
+		velocity = direction * SPEED
+		move_and_slide()
+		
 	
 	if ray_cast_2d.is_colliding():
 		choose_new_ray_cast_length()
 		determine_new_direction()
 		rng_state = rng.state
+	
+	if current_commands.size() > 0:
+		commands_index += 1
+		var array: Array[Command] = current_commands.duplicate(true)
+		commands.insert(commands_index, array)
 
 
 func choose_new_ray_cast_length() -> void:
