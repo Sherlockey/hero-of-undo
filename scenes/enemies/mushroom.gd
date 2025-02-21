@@ -18,7 +18,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	print(time)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -67,7 +66,6 @@ func _physics_process(delta: float) -> void:
 
 
 func begin_attack_animation() -> void:
-	#animated_sprite_2d.stop()
 	animated_sprite_2d.animation = "attack"
 	animation_player.play("attack")
 

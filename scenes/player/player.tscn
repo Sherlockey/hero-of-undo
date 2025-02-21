@@ -585,6 +585,7 @@ animation = &"idle_down"
 autoplay = "idle_up"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_m85ox")
 

@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxawah8lu1jxf"]
+
+[ext_resource type="Script" path="res://scenes/enemies/slime.gd" id="1_vbroc"]
+[ext_resource type="Texture2D" uid="uid://cjk4vpuym8tkp" path="res://assets/sprites/slime.png" id="2_1y58i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tbn8"]
+atlas = ExtResource("2_1y58i")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gf13k"]
+atlas = ExtResource("2_1y58i")
+region = Rect2(24, 0, 24, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e3m71"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tbn8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gf13k")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0v1mp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lq53"]
+
+[node name="Slime" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+script = ExtResource("1_vbroc")
+max_health = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_e3m71")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+rotation = 1.5708
+shape = SubResource("CircleShape2D_0v1mp")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
+shape = SubResource("CircleShape2D_3lq53")
