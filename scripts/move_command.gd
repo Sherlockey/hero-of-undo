@@ -12,4 +12,4 @@ func _init(node2d: Node2D, before_position: Vector2, data: Dictionary = {}) -> v
 
 
 func undo() -> void:
-	_node2d.global_position = _before_position
+	_node2d.position = _before_position

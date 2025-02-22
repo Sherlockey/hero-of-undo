@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://bv5eeywm5dpis"]
 
 [ext_resource type="Script" path="res://scenes/enemies/mushroom.gd" id="1_7teeq"]
-[ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/enemies/projectile.tscn" id="2_1hrrs"]
+[ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/projectile.tscn" id="2_1hrrs"]
 [ext_resource type="Texture2D" uid="uid://cx4rotemumpgi" path="res://assets/sprites/mushroom.png" id="2_2msue"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7n45g"]
@@ -122,6 +122,7 @@ _data = {
 collision_layer = 4
 script = ExtResource("1_7teeq")
 projectile_scene = ExtResource("2_1hrrs")
+max_health = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_0xphl")

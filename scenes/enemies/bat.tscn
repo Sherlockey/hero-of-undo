@@ -32,6 +32,7 @@ animations = [{
 [node name="Bat" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 script = ExtResource("1_rrru7")
+max_health = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_lopr6")

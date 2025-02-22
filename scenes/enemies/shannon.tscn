@@ -1,0 +1,230 @@
+[gd_scene load_steps=18 format=3 uid="uid://cq0kgnxu32e36"]
+
+[ext_resource type="Script" path="res://scenes/enemies/shannon.gd" id="1_i03uy"]
+[ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/projectile.tscn" id="2_bjr1m"]
+[ext_resource type="Texture2D" uid="uid://ccjj15n0kfj2y" path="res://assets/sprites/shannon.png" id="2_plm5t"]
+[ext_resource type="PackedScene" uid="uid://dlxck6hewvawi" path="res://scenes/enemies/shannon_shadow.tscn" id="3_3lwm5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c2mwi"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(208, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ac3gv"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(260, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ttrvk"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(0, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_imu4b"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(52, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8sm5"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(104, 0, 52, 52)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_48l31"]
+atlas = ExtResource("2_plm5t")
+region = Rect2(156, 0, 52, 52)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1rfu7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c2mwi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ac3gv")
+}],
+"loop": false,
+"name": &"cast",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ttrvk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_imu4b")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8sm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_48l31")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 1.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0v1mp"]
+radius = 22.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3lq53"]
+radius = 22.0
+
+[sub_resource type="Animation" id="Animation_pbioh"]
+resource_name = "jump"
+length = 2.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"jump"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [0, 1, 0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -232), Vector2(0, -232), Vector2(0, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 1.25, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [false],
+"method": &"set_area_2d_monitoring"
+}, {
+"args": [],
+"method": &"instantiate_jump_shadow"
+}, {
+"args": [true],
+"method": &"set_area_2d_monitoring"
+}]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"move_to_player"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fkjlj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"cast"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_dkfw7"]
+resource_name = "cast"
+step = 0.05
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7yy6d"]
+_data = {
+"RESET": SubResource("Animation_fkjlj"),
+"cast": SubResource("Animation_dkfw7"),
+"jump": SubResource("Animation_pbioh")
+}
+
+[node name="Shannon" type="Node2D"]
+z_index = 1
+
+[node name="Shannon" type="CharacterBody2D" parent="." groups=["enemy"]]
+collision_layer = 4
+script = ExtResource("1_i03uy")
+projectile_scene = ExtResource("2_bjr1m")
+jump_shadow_scene = ExtResource("3_3lwm5")
+max_health = 13
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shannon"]
+sprite_frames = SubResource("SpriteFrames_1rfu7")
+animation = &"cast"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shannon"]
+visible = false
+rotation = 1.5708
+shape = SubResource("CircleShape2D_0v1mp")
+
+[node name="Area2D" type="Area2D" parent="Shannon"]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Shannon/Area2D"]
+visible = false
+shape = SubResource("CircleShape2D_3lq53")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Shannon"]
+libraries = {
+"": SubResource("AnimationLibrary_7yy6d")
+}

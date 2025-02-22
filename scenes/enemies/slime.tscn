@@ -32,7 +32,7 @@ animations = [{
 [node name="Slime" type="CharacterBody2D" groups=["enemy"]]
 collision_layer = 4
 script = ExtResource("1_vbroc")
-max_health = 2
+max_health = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_e3m71")
