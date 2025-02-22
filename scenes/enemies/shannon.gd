@@ -2,7 +2,7 @@ class_name Shannon
 extends Enemy
 
 const JUMP_LAND_Y_OFFSET : float = -12.0
-const IDLE_DURATION: float = 2.0
+const IDLE_DURATION: float = 1.5
 
 @export var projectile_scene: PackedScene
 @export var jump_shadow_scene: PackedScene
@@ -15,6 +15,7 @@ var is_attacking: bool = false
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var shannon: Node2D = $".."
+@onready var projectile_spawn_points: Node = %ProjectileSpawnPoints
 
 
 func _ready() -> void:
@@ -23,7 +24,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	print(attack_timer)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -50,7 +50,7 @@ func _physics_process(delta: float) -> void:
 		
 		if not is_attacking:
 			attack_timer += delta
-			if attack_timer >= IDLE_DURATION:
+			if attack_timer >= IDLE_DURATION and not is_dead:
 				attack_timer = 0.0
 				choose_attack()
 		
@@ -65,6 +65,7 @@ func _physics_process(delta: float) -> void:
 		var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
 		var animate_command := AnimateCommand.new(animated_sprite_2d, data)
 		current_commands.append(animate_command)
+		
 		if current_commands.size() > 0:
 			commands_index += 1
 			var array: Array[Command] = current_commands.duplicate(true)
@@ -119,7 +120,13 @@ func begin_cast_animation() -> void:
 
 
 func instantiate_projectiles() -> void:
-	pass
+	if is_rewinding:
+		return
+	for marker2d: Marker2D in projectile_spawn_points.get_children():
+		var projectile: Projectile = projectile_scene.instantiate()
+		get_tree().root.add_child(projectile)
+		projectile.global_position = marker2d.global_position
+		projectile.direction = Vector2.RIGHT.rotated(marker2d.global_rotation)
 
 
 func set_is_attacking(value: bool) -> void:

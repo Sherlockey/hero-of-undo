@@ -122,7 +122,7 @@ tracks/1/path = NodePath("AnimatedSprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.15, 1.65),
+"times": PackedFloat32Array(0, 0.2, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [0, 1, 0]
@@ -134,7 +134,7 @@ tracks/2/path = NodePath(".:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0.15, 0.65, 1.15, 1.65),
+"times": PackedFloat32Array(0.2, 0.75, 1.05, 1.6),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(0, 0), Vector2(0, -232), Vector2(0, -232), Vector2(0, 0)]
@@ -146,7 +146,7 @@ tracks/3/path = NodePath(".")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.15, 0.85, 1.65, 1.8),
+"times": PackedFloat32Array(0.2, 0.9, 1.6, 1.8),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [false],
@@ -169,7 +169,7 @@ tracks/4/path = NodePath(".")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(0.85),
+"times": PackedFloat32Array(0.9),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
@@ -179,6 +179,48 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id="Animation_wmk0t"]
 resource_name = "cast"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"cast"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"instantiate_projectiles"
+}, {
+"args": [false],
+"method": &"set_is_attacking"
+}]
+}
 
 [sub_resource type="Animation" id="Animation_k0a0w"]
 length = 0.001
@@ -192,7 +234,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [&"cast"]
+"values": [&"idle"]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -235,10 +277,11 @@ collision_layer = 4
 script = ExtResource("1_i03uy")
 projectile_scene = ExtResource("2_bjr1m")
 jump_shadow_scene = ExtResource("3_3lwm5")
+max_health = 30
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shannon"]
 sprite_frames = SubResource("SpriteFrames_e30rq")
-animation = &"cast"
+animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shannon"]
 visible = false
@@ -252,6 +295,43 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shannon/Area2D"]
 visible = false
 shape = SubResource("CircleShape2D_43v6q")
+
+[node name="ProjectileSpawnPoints" type="Node2D" parent="Shannon"]
+unique_name_in_owner = true
+
+[node name="Marker2D" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(10, 0)
+
+[node name="Marker2D2" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(5, -5)
+rotation = -0.785398
+scale = Vector2(1, 1)
+
+[node name="Marker2D3" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(0, -10)
+rotation = -1.5708
+
+[node name="Marker2D4" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(-5, -5)
+rotation = -2.35619
+
+[node name="Marker2D5" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(-10, 0)
+rotation = -3.14159
+
+[node name="Marker2D6" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(-5, 5)
+rotation = 2.35619
+scale = Vector2(1, 1)
+
+[node name="Marker2D7" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(-4.76837e-07, 10)
+rotation = 1.5708
+
+[node name="Marker2D8" type="Marker2D" parent="Shannon/ProjectileSpawnPoints"]
+position = Vector2(10, 5)
+rotation = 0.785398
+scale = Vector2(1, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Shannon"]
 libraries = {

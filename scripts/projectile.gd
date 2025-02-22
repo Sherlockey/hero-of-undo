@@ -26,9 +26,12 @@ func _physics_process(delta: float) -> void:
 		for command: Command in commands[commands_index]:
 			command.undo()
 		commands_index -= 1
+		if commands_index == -1:
+			queue_free()
 		return
 	else:
 		current_commands.clear()
+		
 		var move_command := MoveCommand.new(self, global_position)
 		current_commands.append(move_command)
 
