@@ -58,6 +58,7 @@ position = Vector2(110, 81)
 last_direction = Vector2(0, 1)
 
 [node name="Control" type="Control" parent="."]
+z_index = 3
 layout_mode = 3
 anchors_preset = 0
 
@@ -66,7 +67,6 @@ position = Vector2(110, 100)
 texture = ExtResource("3_013a8")
 
 [node name="PressAnyKeyToStart" type="Sprite2D" parent="Control"]
-visible = false
 position = Vector2(218, 129)
 texture = ExtResource("4_g0g0j")
 
