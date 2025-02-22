@@ -36,7 +36,10 @@ func _on_global_exit_area_entered() -> void:
 	await player.animation_player.animation_finished
 	player.modulate.a = 0.0
 	await get_tree().create_timer(FADE_OUT_DURATION, false).timeout
-	get_tree().change_scene_to_packed(next_scene)
+	if next_scene != null:
+		get_tree().change_scene_to_packed(next_scene)
+	else:
+		get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
 
 
 func _on_global_enemy_died(node: Node) -> void:

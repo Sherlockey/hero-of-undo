@@ -2,7 +2,7 @@ class_name Player
 extends CharacterBody2D
 
 const SPEED = 100.0
-const ROLL_SPEED = 175.0
+const ROLL_SPEED = 150.0
 
 @export var last_direction: Vector2 = Vector2.UP
 
