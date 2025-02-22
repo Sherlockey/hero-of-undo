@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scenes/rooms/room.gd" id="1_8e18p"]
 [ext_resource type="PackedScene" uid="uid://mtypemkvspd0" path="res://scenes/player/player.tscn" id="2_46rje"]
 [ext_resource type="PackedScene" uid="uid://3htdfepxjhoy" path="res://scenes/exit_area.tscn" id="3_codlg"]
-[ext_resource type="PackedScene" uid="uid://cq0kgnxu32e36" path="res://scenes/enemies/shannon.tscn" id="5_23e7g"]
+[ext_resource type="PackedScene" uid="uid://cwp82kv0uan1w" path="res://scenes/enemies/shannon.tscn" id="5_23e7g"]
 
 [node name="Room9" type="Node2D" node_paths=PackedStringArray("player", "exit_area")]
 script = ExtResource("1_8e18p")
@@ -25,4 +25,4 @@ position = Vector2(160, 147)
 position = Vector2(160, -9)
 
 [node name="Shannon" parent="." instance=ExtResource("5_23e7g")]
-position = Vector2(160, 45)
+position = Vector2(160, 46)

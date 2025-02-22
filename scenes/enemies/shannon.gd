@@ -11,6 +11,7 @@ var player: Player
 var is_rewinding: bool = false
 var attack_timer: float = 0.0
 var next_attack_is_jump: bool = true
+var is_attacking: bool = false
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var shannon: Node2D = $".."
@@ -41,10 +42,13 @@ func _physics_process(delta: float) -> void:
 	else:
 		current_commands.clear()
 		
-		var property_command := PropertyCommand.new(self, "attack_timer", attack_timer)
-		current_commands.append(property_command)
+		var attack_timer_property_command := PropertyCommand.new(self, "attack_timer", attack_timer)
+		current_commands.append(attack_timer_property_command)
 		
-		if animation_player.current_animation == "idle":
+		var is_attacking_property_command := PropertyCommand.new(self, "is_attacking", is_attacking)
+		current_commands.append(is_attacking_property_command)
+		
+		if not is_attacking:
 			attack_timer += delta
 			if attack_timer >= IDLE_DURATION:
 				attack_timer = 0.0
@@ -54,6 +58,9 @@ func _physics_process(delta: float) -> void:
 		current_commands.append(move_command)
 		
 		#Animations
+		if not is_attacking:
+			animation_player.play("idle")
+		
 		animation_player.play()
 		var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
 		var animate_command := AnimateCommand.new(animated_sprite_2d, data)
@@ -65,6 +72,7 @@ func _physics_process(delta: float) -> void:
 
 
 func choose_attack() -> void:
+	is_attacking = true
 	if next_attack_is_jump:
 		begin_jump_animation()
 	else:
@@ -92,7 +100,6 @@ func instantiate_jump_shadow() -> void:
 func move_to_player() -> void:
 	if is_rewinding:
 		return
-	print("move to player")
 	var move_command := MoveCommand.new(shannon, shannon.position)
 	commands[commands_index].append(move_command)
 	shannon.position = player.global_position
@@ -113,6 +120,12 @@ func begin_cast_animation() -> void:
 
 func instantiate_projectiles() -> void:
 	pass
+
+
+func set_is_attacking(value: bool) -> void:
+	if is_rewinding:
+		return
+	is_attacking = value
 
 
 func can_rewind() -> bool:

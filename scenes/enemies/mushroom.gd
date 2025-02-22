@@ -19,7 +19,6 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	print(attack_timer)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -42,9 +41,9 @@ func _physics_process(delta: float) -> void:
 		current_commands.append(attack_timer_property_command)
 		
 		var is_attacking_property_command := PropertyCommand.new(self, "is_attacking", is_attacking)
-		current_commands.append(attack_timer_property_command)
+		current_commands.append(is_attacking_property_command)
 		
-		if animation_player.current_animation == "idle":
+		if not is_attacking:
 			attack_timer += delta
 			if attack_timer >= COOLDOWN and not is_dead:
 				attack_timer = 0.0
