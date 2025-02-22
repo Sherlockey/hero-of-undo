@@ -2,13 +2,13 @@ class_name Shannon
 extends Enemy
 
 const JUMP_LAND_Y_OFFSET : float = -12.0
+const IDLE_DURATION: float = 2.0
 
 @export var projectile_scene: PackedScene
 @export var jump_shadow_scene: PackedScene
 
 var player: Player
 var is_rewinding: bool = false
-var idle_duration: float = 2.0
 var attack_timer: float = 0.0
 var next_attack_is_jump: bool = true
 
@@ -22,6 +22,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	print(attack_timer)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -32,19 +33,20 @@ func _physics_process(delta: float) -> void:
 		is_rewinding = false
 	
 	if is_rewinding:
+		animation_player.pause()
 		for command: Command in commands[commands_index]:
 			command.undo()
 		commands_index -= 1
+		return
 	else:
 		current_commands.clear()
 		
 		var property_command := PropertyCommand.new(self, "attack_timer", attack_timer)
 		current_commands.append(property_command)
 		
-		if not animation_player.is_playing():
+		if animation_player.current_animation == "idle":
 			attack_timer += delta
-			print(attack_timer)
-			if attack_timer >= idle_duration:
+			if attack_timer >= IDLE_DURATION:
 				attack_timer = 0.0
 				choose_attack()
 		
@@ -52,14 +54,10 @@ func _physics_process(delta: float) -> void:
 		current_commands.append(move_command)
 		
 		#Animations
-		if animation_player.is_playing():
-			var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
-			var animate_command := AnimateCommand.new(animated_sprite_2d, data)
-			current_commands.append(animate_command)
-		else:
-			animated_sprite_2d.play("idle")
-			var animate_command := AnimateCommand.new(animated_sprite_2d)
-			current_commands.append(animate_command)
+		animation_player.play()
+		var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
+		var animate_command := AnimateCommand.new(animated_sprite_2d, data)
+		current_commands.append(animate_command)
 		if current_commands.size() > 0:
 			commands_index += 1
 			var array: Array[Command] = current_commands.duplicate(true)
@@ -83,6 +81,8 @@ func begin_jump_animation() -> void:
 
 
 func instantiate_jump_shadow() -> void:
+	if is_rewinding:
+		return
 	var jump_shadow: ShannonShadow = jump_shadow_scene.instantiate()
 	if player != null:
 		jump_shadow.global_position = player.global_position
@@ -90,6 +90,9 @@ func instantiate_jump_shadow() -> void:
 
 
 func move_to_player() -> void:
+	if is_rewinding:
+		return
+	print("move to player")
 	var move_command := MoveCommand.new(shannon, shannon.position)
 	commands[commands_index].append(move_command)
 	shannon.position = player.global_position
@@ -97,6 +100,8 @@ func move_to_player() -> void:
 
 
 func set_area_2d_monitoring(value: bool) -> void:
+	if is_rewinding:
+		return
 	var property_command := PropertyCommand.new(area_2d, "monitoring", !value)
 	commands[commands_index].append(property_command)
 	area_2d.monitoring = value

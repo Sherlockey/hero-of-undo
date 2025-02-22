@@ -71,6 +71,8 @@ func begin_attack_animation() -> void:
 
 
 func attack() -> void:
+	if is_rewinding:
+		return
 	if player != null:
 		var projectile: Projectile = projectile_scene.instantiate()
 		projectile.global_position = global_position
@@ -79,6 +81,8 @@ func attack() -> void:
 
 
 func set_is_attacking(value: bool) -> void:
+	if is_rewinding:
+		return
 	is_attacking = value
 
 

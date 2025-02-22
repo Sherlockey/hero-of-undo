@@ -12,6 +12,7 @@ func _init(animated_sprite_2d: AnimatedSprite2D, data: Dictionary = {}) -> void:
 	_animation_name = _animated_sprite_2d.animation
 	_frame = _animated_sprite_2d.frame
 	_frame_progress = _animated_sprite_2d.frame_progress
+	_data = data
 
 
 func undo() -> void:
