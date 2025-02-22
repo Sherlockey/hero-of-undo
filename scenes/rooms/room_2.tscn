@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://ctm6nbbs51jh8" path="res://scenes/rooms/room_3.tscn" id="2_tmrcy"]
 [ext_resource type="TileSet" uid="uid://bvvev52o0rpm5" path="res://resources/tile_set.tres" id="3_0q6vx"]
 [ext_resource type="PackedScene" uid="uid://3htdfepxjhoy" path="res://scenes/exit_area.tscn" id="4_cqwm7"]
-[ext_resource type="PackedScene" uid="uid://bv5eeywm5dpis" path="res://scenes/enemies/mushroom.tscn" id="5_j2em1"]
+[ext_resource type="PackedScene" uid="uid://bv5eeywm5dpis" path="res://scenes/enemies/mushroom.tscn" id="6_g2mes"]
 
 [node name="Room2" type="Node2D" node_paths=PackedStringArray("player", "exit_area")]
 script = ExtResource("1_fd18f")
@@ -23,17 +23,17 @@ rendering_quadrant_size = 20
 [node name="Player" parent="." instance=ExtResource("2_cbrna")]
 position = Vector2(160, 147)
 
+[node name="Mushroom" parent="." instance=ExtResource("6_g2mes")]
+position = Vector2(50, 70)
+
+[node name="Mushroom2" parent="." instance=ExtResource("6_g2mes")]
+position = Vector2(230, 30)
+
+[node name="Mushroom3" parent="." instance=ExtResource("6_g2mes")]
+position = Vector2(271, 110)
+
+[node name="Mushroom4" parent="." instance=ExtResource("6_g2mes")]
+position = Vector2(71, 130)
+
 [node name="ExitArea" parent="." instance=ExtResource("4_cqwm7")]
 position = Vector2(160, -9)
-
-[node name="Mushroom" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(211, 70)
-
-[node name="Mushroom2" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(70, 70)
-
-[node name="Mushroom3" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(150, 50)
-
-[node name="Mushroom4" parent="." instance=ExtResource("5_j2em1")]
-position = Vector2(270, 110)

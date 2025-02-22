@@ -1,13 +1,14 @@
 class_name Mushroom
 extends Enemy
 
+const COOLDOWN: float = 1.0
+
 @export var projectile_scene: PackedScene
 
+var is_attacking: bool = false
 var player: Player
 var is_rewinding: bool = false
-var is_attacking: bool =  false : set = set_is_attacking
-var cooldown: float = 1.0
-var time: float = 0.0
+var attack_timer: float = 0.0
 
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
@@ -18,6 +19,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
+	print(attack_timer)
 	if Global.is_rewinding:
 		if can_rewind():
 			is_rewinding = true
@@ -32,32 +34,30 @@ func _physics_process(delta: float) -> void:
 			command.undo()
 		commands_index -= 1
 		
-		if not is_attacking:
-			time -= delta
-			if time < 0.0:
-				time = 1.0 + time
 		return
 	else:
 		current_commands.clear()
 		
-		if not is_attacking:
-			time += delta
+		var attack_timer_property_command := PropertyCommand.new(self, "attack_timer", attack_timer)
+		current_commands.append(attack_timer_property_command)
 		
-		if time >= cooldown:
-			if not is_dead:
-				is_attacking = true
-				time = 0.0
+		var is_attacking_property_command := PropertyCommand.new(self, "is_attacking", is_attacking)
+		current_commands.append(attack_timer_property_command)
+		
+		if animation_player.current_animation == "idle":
+			attack_timer += delta
+			if attack_timer >= COOLDOWN and not is_dead:
+				attack_timer = 0.0
 				begin_attack_animation()
 		
 		#Animations
-		if animation_player.is_playing():
-			var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
-			var animate_command := AnimateCommand.new(animated_sprite_2d, data)
-			current_commands.append(animate_command)
-		else:
-			animated_sprite_2d.play("idle")
-			var animate_command := AnimateCommand.new(animated_sprite_2d)
-			current_commands.append(animate_command)
+		if not is_attacking:
+			animation_player.play("idle")
+		
+		animation_player.play()
+		var data := {"animation_player" = animation_player, "current_animation_position" = animation_player.current_animation_position}
+		var animate_command := AnimateCommand.new(animated_sprite_2d, data)
+		current_commands.append(animate_command)
 		
 		if current_commands.size() > 0:
 			commands_index += 1
@@ -66,7 +66,7 @@ func _physics_process(delta: float) -> void:
 
 
 func begin_attack_animation() -> void:
-	animated_sprite_2d.animation = "attack"
+	is_attacking = true
 	animation_player.play("attack")
 
 

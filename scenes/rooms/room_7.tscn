@@ -35,13 +35,13 @@ position = Vector2(150, 94)
 position = Vector2(50, 34)
 
 [node name="Mushroom" parent="." instance=ExtResource("4_riwjt")]
-position = Vector2(130, 30)
+position = Vector2(130, 70)
 
 [node name="Mushroom2" parent="." instance=ExtResource("4_riwjt")]
-position = Vector2(191, 30)
+position = Vector2(151, 50)
 
 [node name="Mushroom3" parent="." instance=ExtResource("4_riwjt")]
-position = Vector2(30, 150)
+position = Vector2(171, 70)
 
 [node name="Slime" parent="." instance=ExtResource("5_7lf3y")]
 position = Vector2(270, 53)
@@ -50,7 +50,7 @@ position = Vector2(270, 53)
 position = Vector2(90, 73)
 
 [node name="Slime3" parent="." instance=ExtResource("5_7lf3y")]
-position = Vector2(190, 73)
+position = Vector2(210, 73)
 
 [node name="ExitArea" parent="." instance=ExtResource("7_ict2e")]
 position = Vector2(160, -9)

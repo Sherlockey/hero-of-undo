@@ -38,22 +38,22 @@ position = Vector2(270, 74)
 position = Vector2(270, 153)
 
 [node name="Mushroom" parent="." instance=ExtResource("5_sfvaa")]
-position = Vector2(72, 109)
+position = Vector2(30, 30)
 
 [node name="Mushroom2" parent="." instance=ExtResource("5_sfvaa")]
-position = Vector2(270, 30)
+position = Vector2(30, 150)
 
 [node name="Mushroom3" parent="." instance=ExtResource("5_sfvaa")]
-position = Vector2(170, 30)
+position = Vector2(30, 70)
 
 [node name="Mushroom4" parent="." instance=ExtResource("5_sfvaa")]
-position = Vector2(290, 110)
+position = Vector2(30, 110)
 
 [node name="Slime" parent="." instance=ExtResource("4_blkco")]
 position = Vector2(230, 33)
 
 [node name="Slime2" parent="." instance=ExtResource("4_blkco")]
-position = Vector2(30, 93)
+position = Vector2(50, 93)
 
 [node name="Slime3" parent="." instance=ExtResource("4_blkco")]
 position = Vector2(190, 93)

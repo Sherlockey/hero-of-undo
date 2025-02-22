@@ -32,7 +32,7 @@ position = Vector2(70, 54)
 rng_seed = 40
 
 [node name="Bat2" parent="." instance=ExtResource("6_cap86")]
-position = Vector2(270, 93)
+position = Vector2(250, 74)
 rng_seed = 41
 
 [node name="Bat3" parent="." instance=ExtResource("6_cap86")]
@@ -40,13 +40,10 @@ position = Vector2(30, 154)
 rng_seed = 42
 
 [node name="Mushroom" parent="." instance=ExtResource("7_g2lkp")]
-position = Vector2(190, 50)
+position = Vector2(290, 70)
 
 [node name="Mushroom2" parent="." instance=ExtResource("7_g2lkp")]
-position = Vector2(230, 70)
+position = Vector2(250, 30)
 
 [node name="Mushroom3" parent="." instance=ExtResource("7_g2lkp")]
-position = Vector2(70, 90)
-
-[node name="Mushroom4" parent="." instance=ExtResource("7_g2lkp")]
-position = Vector2(30, 30)
+position = Vector2(270, 90)

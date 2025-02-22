@@ -20,6 +20,9 @@ tile_map_data = PackedByteArray("AAAAAAAAAAAHAAAAAAABAAAAAAAHAAAAAAACAAAAAAAHAAA
 tile_set = ExtResource("1_rfe0d")
 rendering_quadrant_size = 20
 
+[node name="Player" parent="." instance=ExtResource("2_2376u")]
+position = Vector2(160, 147)
+
 [node name="Bat" parent="." instance=ExtResource("3_mo26p")]
 position = Vector2(50, 50)
 
@@ -34,9 +37,6 @@ rng_seed = 2
 [node name="Bat4" parent="." instance=ExtResource("3_mo26p")]
 position = Vector2(273, 77)
 rng_seed = 3
-
-[node name="Player" parent="." instance=ExtResource("2_2376u")]
-position = Vector2(160, 147)
 
 [node name="ExitArea" parent="." instance=ExtResource("5_hnve8")]
 position = Vector2(161, -9)
