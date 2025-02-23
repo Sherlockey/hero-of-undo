@@ -18,6 +18,8 @@ config/icon="res://assets/imelda_icon.png"
 [autoload]
 
 Global="*res://scripts/global.gd"
+Music="*res://scenes/globals/music.tscn"
+SoundEffects="*res://scenes/globals/sound_effects.tscn"
 
 [debug]
 

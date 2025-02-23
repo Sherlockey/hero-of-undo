@@ -9,6 +9,7 @@ var commands: Array = []
 var commands_index: int = -1
 var is_dead: bool: set = set_is_dead
 
+@onready var died_audio_stream: AudioStream = preload("res://assets/sound_effects/roll.ogg")
 @onready var health: int = max_health
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var area_2d: Area2D = $Area2D
@@ -21,6 +22,8 @@ func _ready() -> void:
 
 func take_damage(value: int) -> void:
 	health -= value
+	SoundEffects.play_sound(died_audio_stream, 20.0)
+	
 	var take_damage_command := TakeDamageCommand.new(self, value)
 	commands[commands_index].append(take_damage_command)
 	

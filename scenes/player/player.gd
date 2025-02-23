@@ -5,6 +5,9 @@ const SPEED = 100.0
 const ROLL_SPEED = 150.0
 
 @export var last_direction: Vector2 = Vector2.UP
+@export var sword_attack_audio_stream: AudioStream
+@export var roll_audio_stream: AudioStream
+@export var take_damage_audio_stream: AudioStream
 
 var current_commands: Array[Command] = []
 var commands: Array = []
@@ -71,6 +74,7 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not attacking:
 		attacking = true
 		attack_timer.start()
+		SoundEffects.play_sound(sword_attack_audio_stream, 7.0)
 		if last_direction == Vector2.UP:
 			animation_name = "attack_up"
 		elif last_direction == Vector2.DOWN:
@@ -99,6 +103,7 @@ func _physics_process(_delta: float) -> void:
 		can_roll = false
 		roll_timer.start()
 		roll_cooldown_timer.start()
+		SoundEffects.play_sound(roll_audio_stream, 15.0)
 		if direction == Vector2.ZERO:
 			direction = last_direction
 		
@@ -173,6 +178,7 @@ func _physics_process(_delta: float) -> void:
 func take_damage(value: int) -> void:
 	if not rolling:
 		health -= value
+		SoundEffects.play_sound(take_damage_audio_stream, 5.0)
 		if health <= 0:
 			is_dead = true
 

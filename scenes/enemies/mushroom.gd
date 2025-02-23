@@ -72,7 +72,7 @@ func begin_attack_animation() -> void:
 func attack() -> void:
 	if is_rewinding:
 		return
-	if player != null:
+	if player != null and not is_dead:
 		var projectile: Projectile = projectile_scene.instantiate()
 		projectile.global_position = global_position
 		projectile.direction = Vector2.RIGHT.rotated(get_angle_to(player.global_position))

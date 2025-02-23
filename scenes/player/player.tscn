@@ -1,7 +1,10 @@
-[gd_scene load_steps=72 format=3 uid="uid://mtypemkvspd0"]
+[gd_scene load_steps=75 format=3 uid="uid://mtypemkvspd0"]
 
 [ext_resource type="Texture2D" uid="uid://bbxh2d2y8o3o1" path="res://assets/sprites/imelda.png" id="1_h0usy"]
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_qwsb6"]
+[ext_resource type="AudioStream" uid="uid://dd800675464u" path="res://assets/sound_effects/roll.ogg" id="2_1hrkw"]
+[ext_resource type="AudioStream" uid="uid://cxhaks2r8phtt" path="res://assets/sound_effects/sword_attack.ogg" id="2_3j3wl"]
+[ext_resource type="AudioStream" uid="uid://b7jc526yjt54a" path="res://assets/sound_effects/hurt.ogg" id="4_ir5fk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlxus"]
 atlas = ExtResource("1_h0usy")
@@ -579,6 +582,9 @@ _data = {
 z_index = 2
 collision_layer = 2
 script = ExtResource("1_qwsb6")
+sword_attack_audio_stream = ExtResource("2_3j3wl")
+roll_audio_stream = ExtResource("2_1hrkw")
+take_damage_audio_stream = ExtResource("4_ir5fk")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_628ao")

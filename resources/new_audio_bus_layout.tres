@@ -1,0 +1,21 @@
+[gd_resource type="AudioBusLayout" load_steps=4 format=3 uid="uid://dqhmnoo7lded2"]
+
+[sub_resource type="AudioEffectLowPassFilter" id="AudioEffectLowPassFilter_jcg3v"]
+resource_name = "LowPassFilter"
+resonance = 1.0
+
+[sub_resource type="AudioEffectReverb" id="AudioEffectReverb_oqaxp"]
+resource_name = "Reverb"
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_wg8yw"]
+resource_name = "PitchShift"
+pitch_scale = 0.95
+
+[resource]
+bus/0/volume_db = -19.676
+bus/0/effect/0/effect = SubResource("AudioEffectLowPassFilter_jcg3v")
+bus/0/effect/0/enabled = false
+bus/0/effect/1/effect = SubResource("AudioEffectReverb_oqaxp")
+bus/0/effect/1/enabled = false
+bus/0/effect/2/effect = SubResource("AudioEffectPitchShift_wg8yw")
+bus/0/effect/2/enabled = false

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://blnjh3g6hb0km"]
+
+[ext_resource type="AudioStream" uid="uid://76xjnur2mnos" path="res://assets/music/16._truth.mp3" id="1_kg7fb"]
+
+[node name="Music" type="Node"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+process_mode = 3
+stream = ExtResource("1_kg7fb")
+autoplay = true

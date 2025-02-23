@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://3htdfepxjhoy"]
+[gd_scene load_steps=4 format=3 uid="uid://3htdfepxjhoy"]
 
 [ext_resource type="Script" path="res://scenes/exit_area.gd" id="1_uxwt0"]
+[ext_resource type="AudioStream" uid="uid://pgafv4xfy247" path="res://assets/sound_effects/stair_down.ogg" id="2_jr58m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3liga"]
 
@@ -8,6 +9,7 @@
 collision_mask = 2
 monitoring = false
 script = ExtResource("1_uxwt0")
+audio_stream = ExtResource("2_jr58m")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_3liga")
