@@ -7,3 +7,4 @@ func _input(event: InputEvent) -> void:
 		path += ".png"
 		print(path)
 		get_viewport().get_texture().get_image().save_png(path)
+		return

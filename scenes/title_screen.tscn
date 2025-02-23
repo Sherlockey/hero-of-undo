@@ -147,7 +147,7 @@ texture = ExtResource("8_m84nh")
 vframes = 8
 
 [node name="RollSpace" type="Sprite2D" parent="Inputs/MouseAndKeyboardControls"]
-position = Vector2(106, 94)
+position = Vector2(109, 94)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 4

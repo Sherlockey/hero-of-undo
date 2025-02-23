@@ -24,7 +24,6 @@ buses/default_bus_layout="res://resources/new_audio_bus_layout.tres"
 Global="*res://scripts/global.gd"
 Music="*res://scenes/globals/music.tscn"
 SoundEffects="*res://scenes/globals/sound_effects.tscn"
-Screenshot="res://scripts/screenshot.gd"
 
 [debug]
 
