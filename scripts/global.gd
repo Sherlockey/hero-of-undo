@@ -8,10 +8,12 @@ signal enemy_undied(node: Node)
 signal exit_area_entered()
 
 var is_rewinding: bool = false
+var audio_bus_layout: AudioBusLayout = preload("res://resources/new_audio_bus_layout.tres")
 
 
 func _ready() -> void:
 	process_mode = PROCESS_MODE_ALWAYS
+	AudioServer.set_bus_layout(audio_bus_layout)
 
 
 func _physics_process(delta: float) -> void:

@@ -17,6 +17,7 @@ var alive_enemies: Array[Node]
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Global.set_physics_process(true)
 	alive_enemies = get_tree().get_nodes_in_group("enemy")
 	Global.enemy_died.connect(_on_global_enemy_died)

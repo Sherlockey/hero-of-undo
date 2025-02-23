@@ -68,6 +68,7 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_hxru3"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_a4x3x"]
+radius = 7.0
 
 [sub_resource type="Animation" id="Animation_l5dar"]
 length = 0.001

@@ -1,7 +1,7 @@
 class_name Mushroom
 extends Enemy
 
-const COOLDOWN: float = 1.0
+const COOLDOWN: float = 1.25
 
 @export var projectile_scene: PackedScene
 

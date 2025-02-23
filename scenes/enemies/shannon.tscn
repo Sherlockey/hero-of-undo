@@ -75,7 +75,7 @@ animations = [{
 radius = 22.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_43v6q"]
-radius = 22.0
+radius = 20.0
 
 [sub_resource type="Animation" id="Animation_k0a0w"]
 length = 0.001
@@ -300,7 +300,6 @@ collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Shannon/Area2D"]
-visible = false
 shape = SubResource("CircleShape2D_43v6q")
 
 [node name="ProjectileSpawnPoints" type="Node2D" parent="Shannon"]
