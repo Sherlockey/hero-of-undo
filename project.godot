@@ -20,6 +20,7 @@ config/icon="res://assets/imelda_icon.png"
 Global="*res://scripts/global.gd"
 Music="*res://scenes/globals/music.tscn"
 SoundEffects="*res://scenes/globals/sound_effects.tscn"
+Screenshot="*res://scripts/screenshot.gd"
 
 [debug]
 

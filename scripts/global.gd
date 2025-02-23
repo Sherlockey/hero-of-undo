@@ -12,6 +12,7 @@ var audio_bus_layout: AudioBusLayout = preload("res://resources/new_audio_bus_la
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	process_mode = PROCESS_MODE_ALWAYS
 	AudioServer.set_bus_layout(audio_bus_layout)
 

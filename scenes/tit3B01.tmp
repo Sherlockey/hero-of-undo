@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=4 uid="uid://x4drr0p4o5x1"]
+[gd_scene load_steps=12 format=4 uid="uid://x4drr0p4o5x1"]
 
 [ext_resource type="Script" path="res://scenes/title_screen.gd" id="1_hg5dw"]
 [ext_resource type="TileSet" uid="uid://bmoxirsuylwko" path="res://resources/outdoor_tile_set.tres" id="1_rsx87"]
@@ -46,43 +46,6 @@ _data = {
 "fade_out": SubResource("Animation_txhur")
 }
 
-[sub_resource type="Animation" id="Animation_nrtmx"]
-resource_name = "fade_in"
-step = 0.25
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Inputs:modulate")
-tracks/0/interp = 0
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.5, 0.75, 1),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.2), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.8), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_y0ixp"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Inputs:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_da2ru"]
-_data = {
-"RESET": SubResource("Animation_y0ixp"),
-"fade_in": SubResource("Animation_nrtmx")
-}
-
 [node name="TitleScreen" type="Node2D"]
 script = ExtResource("1_hg5dw")
 next_scene = ExtResource("2_8y6w8")
@@ -119,46 +82,40 @@ libraries = {
 position = Vector2(230, 71)
 monitoring = true
 
-[node name="Inputs" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="MouseAndKeyboardControls" type="Control" parent="Inputs"]
+[node name="MouseAndKeyboardControls" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
-layout_mode = 1
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="MoveWASD" type="Sprite2D" parent="Inputs/MouseAndKeyboardControls"]
+[node name="MoveWASD" type="Sprite2D" parent="MouseAndKeyboardControls"]
 position = Vector2(107, 66)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 2
 
-[node name="AttackLeftMouse" type="Sprite2D" parent="Inputs/MouseAndKeyboardControls"]
+[node name="AttackLeftMouse" type="Sprite2D" parent="MouseAndKeyboardControls"]
 position = Vector2(110, 80)
 texture = ExtResource("8_m84nh")
 vframes = 8
 
-[node name="RollSpace" type="Sprite2D" parent="Inputs/MouseAndKeyboardControls"]
+[node name="RollSpace" type="Sprite2D" parent="MouseAndKeyboardControls"]
 position = Vector2(106, 94)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 4
 
-[node name="RewindShift" type="Sprite2D" parent="Inputs/MouseAndKeyboardControls"]
+[node name="RewindShift" type="Sprite2D" parent="MouseAndKeyboardControls"]
 position = Vector2(106, 108)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 6
 
-[node name="JoypadControls" type="Control" parent="Inputs"]
+[node name="JoypadControls" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
 layout_mode = 3
@@ -166,33 +123,26 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MoveLeftStick" type="Sprite2D" parent="Inputs/JoypadControls"]
+[node name="MoveLeftStick" type="Sprite2D" parent="JoypadControls"]
 position = Vector2(107, 66)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 3
 
-[node name="AttackLeftButton" type="Sprite2D" parent="Inputs/JoypadControls"]
+[node name="AttackLeftButton" type="Sprite2D" parent="JoypadControls"]
 position = Vector2(107, 80)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 1
 
-[node name="RollBottomButton" type="Sprite2D" parent="Inputs/JoypadControls"]
+[node name="RollBottomButton" type="Sprite2D" parent="JoypadControls"]
 position = Vector2(106, 94)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 5
 
-[node name="RewindRightButton" type="Sprite2D" parent="Inputs/JoypadControls"]
+[node name="RewindRightButton" type="Sprite2D" parent="JoypadControls"]
 position = Vector2(106, 108)
 texture = ExtResource("8_m84nh")
 vframes = 8
 frame = 7
-
-[node name="InputsAnimationPlayer" type="AnimationPlayer" parent="Inputs"]
-unique_name_in_owner = true
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_da2ru")
-}

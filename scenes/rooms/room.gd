@@ -17,7 +17,6 @@ var alive_enemies: Array[Node]
 
 
 func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	Global.set_physics_process(true)
 	alive_enemies = get_tree().get_nodes_in_group("enemy")
 	Global.enemy_died.connect(_on_global_enemy_died)
@@ -40,7 +39,7 @@ func _on_global_exit_area_entered() -> void:
 	if next_scene != null:
 		get_tree().change_scene_to_packed(next_scene)
 	else:
-		get_tree().change_scene_to_file("res://scenes/title_screen.tscn")
+		get_tree().change_scene_to_file("res://scenes/end_screen.tscn")
 
 
 func _on_global_enemy_died(node: Node) -> void:

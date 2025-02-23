@@ -122,11 +122,12 @@ func begin_cast_animation() -> void:
 func instantiate_projectiles() -> void:
 	if is_rewinding:
 		return
-	for marker2d: Marker2D in projectile_spawn_points.get_children():
-		var projectile: Projectile = projectile_scene.instantiate()
-		get_tree().root.add_child(projectile)
-		projectile.global_position = marker2d.global_position
-		projectile.direction = Vector2.RIGHT.rotated(marker2d.global_rotation)
+	if not is_dead:
+		for marker2d: Marker2D in projectile_spawn_points.get_children():
+			var projectile: Projectile = projectile_scene.instantiate()
+			get_tree().root.add_child(projectile)
+			projectile.global_position = marker2d.global_position
+			projectile.direction = Vector2.RIGHT.rotated(marker2d.global_rotation)
 
 
 func set_is_attacking(value: bool) -> void:
