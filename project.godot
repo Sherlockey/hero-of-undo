@@ -15,12 +15,16 @@ run/main_scene="res://scenes/title_screen.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://assets/imelda_icon.png"
 
+[audio]
+
+buses/default_bus_layout="res://resources/new_audio_bus_layout.tres"
+
 [autoload]
 
 Global="*res://scripts/global.gd"
 Music="*res://scenes/globals/music.tscn"
 SoundEffects="*res://scenes/globals/sound_effects.tscn"
-Screenshot="*res://scripts/screenshot.gd"
+Screenshot="res://scripts/screenshot.gd"
 
 [debug]
 
