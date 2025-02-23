@@ -74,7 +74,7 @@ func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("attack") and not attacking:
 		attacking = true
 		attack_timer.start()
-		SoundEffects.play_sound(sword_attack_audio_stream, 7.0)
+		SoundEffects.play_sound(sword_attack_audio_stream, 5.0)
 		if last_direction == Vector2.UP:
 			animation_name = "attack_up"
 		elif last_direction == Vector2.DOWN:
@@ -192,6 +192,8 @@ func can_rewind() -> bool:
 
 func set_is_dead(value: bool) -> void:
 	is_dead = value
+	
+	animated_sprite_2d.material.set_shader_parameter("on", value)
 	
 	if is_dead == true:
 		var die_command := DieCommand.new(self)

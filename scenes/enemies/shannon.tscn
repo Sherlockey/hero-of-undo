@@ -1,9 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://cwp82kv0uan1w"]
+[gd_scene load_steps=21 format=3 uid="uid://cwp82kv0uan1w"]
 
 [ext_resource type="Script" path="res://scenes/enemies/shannon.gd" id="1_i03uy"]
 [ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/projectile.tscn" id="2_bjr1m"]
 [ext_resource type="Texture2D" uid="uid://ccjj15n0kfj2y" path="res://assets/sprites/shannon.png" id="2_plm5t"]
 [ext_resource type="PackedScene" uid="uid://dlxck6hewvawi" path="res://scenes/enemies/shannon_shadow.tscn" id="3_3lwm5"]
+[ext_resource type="Shader" path="res://assets/shaders/invert_color.gdshader" id="4_4w3ca"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_h1iyq"]
+resource_local_to_scene = true
+shader = ExtResource("4_4w3ca")
+shader_parameter/on = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c2mwi"]
 atlas = ExtResource("2_plm5t")
@@ -280,6 +286,7 @@ jump_shadow_scene = ExtResource("3_3lwm5")
 max_health = 30
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Shannon"]
+material = SubResource("ShaderMaterial_h1iyq")
 sprite_frames = SubResource("SpriteFrames_e30rq")
 animation = &"idle"
 

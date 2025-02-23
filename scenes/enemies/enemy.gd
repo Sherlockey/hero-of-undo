@@ -22,7 +22,11 @@ func _ready() -> void:
 
 func take_damage(value: int) -> void:
 	health -= value
-	SoundEffects.play_sound(died_audio_stream, 20.0)
+	SoundEffects.play_sound(died_audio_stream, 22.0)
+	animated_sprite_2d.material.set_shader_parameter("on", true)
+	get_tree().create_timer(0.1, false).timeout.connect(
+			func(): animated_sprite_2d.material.set_shader_parameter("on", false)
+		)
 	
 	var take_damage_command := TakeDamageCommand.new(self, value)
 	commands[commands_index].append(take_damage_command)

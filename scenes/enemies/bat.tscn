@@ -1,7 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://cgjoaluwwohoj"]
+[gd_scene load_steps=10 format=3 uid="uid://cgjoaluwwohoj"]
 
 [ext_resource type="Texture2D" uid="uid://b6auk0bjqt7q7" path="res://assets/sprites/bat.png" id="1_kpvjq"]
 [ext_resource type="Script" path="res://scenes/enemies/bat.gd" id="1_rrru7"]
+[ext_resource type="Shader" path="res://assets/shaders/invert_color.gdshader" id="2_5iknm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_64xhm"]
+resource_local_to_scene = true
+shader = ExtResource("2_5iknm")
+shader_parameter/on = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6maxh"]
 atlas = ExtResource("1_kpvjq")
@@ -35,6 +41,7 @@ script = ExtResource("1_rrru7")
 max_health = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_64xhm")
 sprite_frames = SubResource("SpriteFrames_lopr6")
 animation = &"move"
 autoplay = "move"

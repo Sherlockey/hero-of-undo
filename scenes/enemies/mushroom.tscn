@@ -1,8 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://bv5eeywm5dpis"]
+[gd_scene load_steps=19 format=3 uid="uid://bv5eeywm5dpis"]
 
+[ext_resource type="Shader" path="res://assets/shaders/invert_color.gdshader" id="1_4064k"]
 [ext_resource type="Script" path="res://scenes/enemies/mushroom.gd" id="1_gpeur"]
 [ext_resource type="PackedScene" uid="uid://bwaijvmy5k68" path="res://scenes/projectile.tscn" id="2_g8bpn"]
 [ext_resource type="Texture2D" uid="uid://cx4rotemumpgi" path="res://assets/sprites/mushroom.png" id="2_s4irx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ad1mp"]
+resource_local_to_scene = true
+shader = ExtResource("1_4064k")
+shader_parameter/on = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7n45g"]
 atlas = ExtResource("2_s4irx")
@@ -180,6 +186,7 @@ projectile_scene = ExtResource("2_g8bpn")
 max_health = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ad1mp")
 sprite_frames = SubResource("SpriteFrames_cx2wr")
 animation = &"attack"
 

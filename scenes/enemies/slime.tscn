@@ -1,7 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://bxawah8lu1jxf"]
+[gd_scene load_steps=10 format=3 uid="uid://bxawah8lu1jxf"]
 
 [ext_resource type="Script" path="res://scenes/enemies/slime.gd" id="1_vbroc"]
 [ext_resource type="Texture2D" uid="uid://cjk4vpuym8tkp" path="res://assets/sprites/slime.png" id="2_1y58i"]
+[ext_resource type="Shader" path="res://assets/shaders/invert_color.gdshader" id="2_aqybh"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_efhvj"]
+resource_local_to_scene = true
+shader = ExtResource("2_aqybh")
+shader_parameter/on = false
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4tbn8"]
 atlas = ExtResource("2_1y58i")
@@ -35,6 +41,7 @@ script = ExtResource("1_vbroc")
 max_health = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_efhvj")
 sprite_frames = SubResource("SpriteFrames_e3m71")
 animation = &"idle"
 autoplay = "idle"

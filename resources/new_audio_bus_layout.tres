@@ -12,7 +12,7 @@ resource_name = "PitchShift"
 pitch_scale = 0.95
 
 [resource]
-bus/0/volume_db = -19.676
+bus/0/volume_db = -21.8348
 bus/0/effect/0/effect = SubResource("AudioEffectLowPassFilter_jcg3v")
 bus/0/effect/0/enabled = false
 bus/0/effect/1/effect = SubResource("AudioEffectReverb_oqaxp")
